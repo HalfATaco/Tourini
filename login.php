@@ -1,37 +1,35 @@
 <?php
 include "connectdb.php";
 $username = $_POST["username"];
-$firstname = $_POST["firstname"];
-$lastname = $_POST["lastname"];
-$email = $_POST["email"];
 $password = $_POST["password"];
 $message = checkUser($username,$password,$mysqli);
-if($message == "This user already exists!") {
+if($message == "Either user does not exist or wrong password") {
+	echo $message;
 	header("refresh: 3; index.html");
 }
 else {
 	$_SESSION["username"] = $username;
+?>	<!DOCTYPE html>
+	<html>
+	<head>
+		<title> Welcome back </title>
+		<body>
+			<html>
+			<head>
+				<title>Tourini</title>
+				<meta charset="utf-8" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="stylesheet" href="assets/css/main.css" />
+			</head>
+			<body>
+
+				<section id="banner">
+					<div class="inner split">
+							<h2><?php echo $message ?></h2>
+
+					</body>
+					</html>
+					</html>
+<?php
 	header("refresh: 3; home.php");}
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title> Register Page </title>
-	<body>
-		<html>
-		<head>
-			<title>Tourini</title>
-			<meta charset="utf-8" />
-			<meta name="viewport" content="width=device-width, initial-scale=1" />
-			<link rel="stylesheet" href="assets/css/main.css" />
-		</head>
-		<body>
-
-			<section id="banner">
-				<div class="inner split">
-						<h2><?php echo $message ?></h2>
-
-				</body>
-				</html>
-				</html>

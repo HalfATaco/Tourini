@@ -30,13 +30,12 @@ function checkUser($username,$password,$mysqli)
 {
 	$message = "";
 	$query = "SELECT * FROM `users` WHERE username ='".$username."' and password = '".$password."';";
-	if($mysqli->query($query) == TRUE)
+	if($result = $mysqli->query($query))
 	{
-		$result = ()
-		$message = "Your account has been created!";
-	}
-	else {
-		$message = "This user already exists!";
+		$row_cnt = $result->num_rows;
+		if ($row_cnt > 0)
+		{$message = "Welcome back ".$username;}
+		else{$message = "Either user does not exist or wrong password";}
 	}
 	return $message;
 
