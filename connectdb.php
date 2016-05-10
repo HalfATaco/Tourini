@@ -38,7 +38,83 @@ function checkUser($username,$password,$mysqli)
 		else{$message = "Either user does not exist or wrong password";}
 	}
 	return $message;
+}
+function getCircles($username,$mysqli)
+{
+	$query = "SELECT type from circles where username ='".$username."';";
+	if($result = $mysqli->query($query))
+	{
+		$array;
+		$count = 0;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+	      $array[] = $row[0];
+	  }
+		return $array;
+	}
+
+}
+function insertPost($username,$message,$link,$location,$privacy,$mysqli)
+{
+	if($link != null)
+	{
+$type="photo";
+	}
+	else{$link = "NULL";}
+	if($location == null )
+	{
+		$location = "NULL";
+	}
+
+	else{$type = "post";}
+	$reply = "";
+	if($privacy =="public" || $privacy=="private")
+	{
+	$query = "INSERT INTO `post` (`username`, `pTime`, `pLatitude`, `pLongitude`, `pLink`, `pCaption`, `pPrivacy`, `pType`) VALUES ('".$username."',CURRENT_TIME,". $location."," .$location.",'" .$link."','" .$message."','".$privacy."','".$type."');";
+	if($mysqli->query($query) === TRUE)
+		{
+			echo "POST INSERTED";
+			$reply = "Success!";
+		}
+		else {
+			$reply = $mysqli->error;
+		}
+}
+else{
+	$query = "INSERT INTO `post` (`username`, `pTime`, `pLatitude`, `pLongitude`, `pLink`, `pCaption`, `pPrivacy`, `pType`) VALUES ('".$username."',CURRENT_TIME,". $location."," .$location.",'" .$link."','" .$message."','circle','".$type."');";
+	$query2= "SELECT circleid from circles where type ='".$privacy."' and username = '".$username."';";
+	$query3= "SELECT max(postID) from post";
+	if($mysqli->query($query) === TRUE)
+		{
+			if($result=$mysqli->query($query2))
+				{
+					  while ($row = $result->fetch_array(MYSQLI_NUM)){
+							{$circleId = $row[0];}
+							if($result2=$mysqli->query($query3))
+								{
+										while ($row = $result2->fetch_array(MYSQLI_NUM)){
+											{$postId = $row[0];}
+											$query4 = "INSERT INTO `post_circle` (`postID`, `circleID`) VALUES ('".$postId."','".$circleId."')";
+											if($mysqli->query($query4) === TRUE)
+											{$reply ="Success";
+											echo "PHOTO INSERTED";}
+								}}
+								else {
+									$reply = $mysqli->error;
+								}
+				}}
+				else {
+					$reply = $mysqli->error;
+				}
+		}
+		else {
+			$reply = $mysqli->error;
+		}
 
 }
 
+return $reply;
+
+
+
+}
 ?>

@@ -16,7 +16,16 @@
 		font: inherit;
 		vertical-align: baseline;
 	}
-
+	#location-input {
+    color: black;
+    color: black !important;  <-- if the first one doesn't work
+}
+	#textbox {
+	  font-size:12px;
+	  height:200px;
+	  top:0;
+	  width:400px;
+	}
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
 	}
@@ -2536,7 +2545,6 @@
 		-webkit-flex-wrap: wrap;
 		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
-		padding-bottom: 2em;
 	}
 
 		.split > * {
@@ -3202,7 +3210,7 @@
 		background-image: url("images/overlay.png"), linear-gradient(45deg, #4A4771 0%, #7C3875 100%);
 		background-size: 100px 100px, cover;
 		color: rgba(255, 255, 255, 0.5);
-		padding: 14em 0 4em;
+		padding: 5em 0 4em;
 	}
 
 		#banner h2 {
