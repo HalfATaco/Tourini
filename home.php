@@ -15,10 +15,10 @@ if(isset($_SESSION["username"])) {
   <body>
     <div class="collapse navbar-collapse">
       <form action="search.php" method="GET"><input type="search" placeholder="Search here" name="searchVal" required><input type="submit" value="Go"/>
-  <ul class="nav navbar-nav pull-right ">
+  <ul class="nav navbar-nav pull-right">
     <li class="active"><a href="#">Home</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
-  <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Settings</a></li>
+  <li><a href="settings.php">Settings</a></li>
 
   </div>
 </form>
@@ -119,5 +119,5 @@ if(isset($_SESSION["username"])) {
 </html>
 <?php }
 else{echo "Error: You are not logged in. Redirecting...";
-header("refresh:3;index.php");}
-	?>
+  header("refresh:3;index.php");}
+  ?>

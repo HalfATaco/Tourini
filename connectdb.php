@@ -45,7 +45,6 @@ function getCircles($username,$mysqli)
 	if($result = $mysqli->query($query))
 	{
 		$array;
-		$count = 0;
 		while ($row = $result->fetch_array(MYSQLI_NUM)){
 	      $array[] = $row[0];
 	  }
@@ -72,7 +71,6 @@ $type="photo";
 	$query = "INSERT INTO `post` (`username`, `pTime`, `pLatitude`, `pLongitude`, `pLink`, `pCaption`, `pPrivacy`, `pType`) VALUES ('".$username."',CURRENT_TIME,". $location."," .$location.",'" .$link."','" .$message."','".$privacy."','".$type."');";
 	if($mysqli->query($query) === TRUE)
 		{
-			echo "POST INSERTED";
 			$reply = "Success!";
 		}
 		else {
@@ -95,8 +93,7 @@ else{
 											{$postId = $row[0];}
 											$query4 = "INSERT INTO `post_circle` (`postID`, `circleID`) VALUES ('".$postId."','".$circleId."')";
 											if($mysqli->query($query4) === TRUE)
-											{$reply ="Success";
-											echo "PHOTO INSERTED";}
+											{$reply ="Success";}
 								}}
 								else {
 									$reply = $mysqli->error;
@@ -113,8 +110,45 @@ else{
 }
 
 return $reply;
-
-
-
 }
+function getUserData($username,$mysqli)
+{
+	$query = "SELECT firstname,lastname,email from users where username ='".$username."';";
+	if($result = $mysqli->query($query))
+	{
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+				return $row;
+		}
+}
+}function insertFriend($friend,$username,	$mysqli)
+{
+	$query = "INSERT INTO `friends` (`user`, `friend`) VALUES ('".$username."','".$friend."')";
+	if($mysqli->query($query)==TRUE)
+	{
+		$reply= "Success";
+		}
+		else{$reply= "Failure";}
+}
+function removeRequest($friend,$username,$mysqli)
+{
+	$query = "DELETE FROM `friendrequest` WHERE sender='".$friend."'AND reciever='".$username."';";
+	if($mysqli->query($query)==TRUE)
+	{
+	$reply= "Success";
+		}
+		else{$reply= "Failure";}
+		return $reply;
+}
+function removeFriend($friend,$username,$mysqli)
+{
+	$query = "DELETE FROM `friends` WHERE friend='".$friend."'AND user='".$username."';";
+	if($mysqli->query($query)==TRUE)
+	{
+	$reply= "Success";
+		}
+		else{$reply= "Failure";}
+		return $reply;
+}
+
 ?>
