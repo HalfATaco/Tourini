@@ -51,6 +51,19 @@ function getCircles($username,$mysqli)
 	}
 	return $array;
 }
+function getFriends($username,$mysqli)
+{
+	$query = "SELECT friend from friends where user ='".$username."';";
+	if($result = $mysqli->query($query))
+	{
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+	      $array[] = $row[0];
+	  }
+		return $array;
+	}
+
+}
 function insertPost($username,$message,$link,$location,$privacy,$mysqli)
 {
 	if($link != null)
@@ -120,7 +133,7 @@ function getUserData($username,$mysqli)
 				return $row;
 		}
 }
-}function insertFriend($friend,$username,	$mysqli)
+}function insertFriend($friend,$username,$mysqli)
 {
 	$query = "INSERT INTO `friends` (`user`, `friend`) VALUES ('".$username."','".$friend."')";
 	$query2 = "INSERT INTO `friends` (`user`, `friend`) VALUES ('".$friend."','".$username."')";
@@ -133,6 +146,37 @@ function getUserData($username,$mysqli)
 		else{$reply= "Failure";}
 	}
 	else{$reply="Failure";}
+}
+function addCircle($circle, $username, $mysqli)
+{
+	$query = "INSERT INTO circles (username, type) VALUES ('".$username."','".$circle."');";
+	if($mysqli->query($query)==TRUE)
+	{
+		$reply = "Success";
+	}
+	else{$reply="Failure";}
+	return $reply;
+}
+function removeCircle($circle, $username, $mysqli)
+{
+	
+}
+function insertFriendToCircle($friend, $circle, $username, $mysqli)
+{
+	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
+	if($result = $mysqli->query($query))
+	{
+		$row = $result->fetch_array(MYSQLI_NUM);
+		$circleid = $row[0];
+		$query = "INSERT INTO friendtype (circleId, friend) VALUES (".$circleid.",'".$friend."')";
+		if($mysqli->query($query)==TRUE)
+		{
+			$reply= "Success";
+			}
+			else{$reply= "Failure";}
+	}
+	else{$reply= "Failure";}
+	return $reply;
 }
 function removeRequest($friend,$username,$mysqli)
 {

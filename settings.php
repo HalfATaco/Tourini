@@ -16,7 +16,7 @@ if(isset($_SESSION["username"])) {
       <form action="search.php" method="GET"><input type="search" placeholder="Search here" name="searchVal" required><input type="submit" value="Go"/>
   <ul class="nav navbar-nav pull-right ">
     <li class="active"><a href="home.php">Home</a></li>
-  <li><a href="profile.php?username="<?php echo $_SESSION["username"]?>>Profile</a></li>
+  <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
   <li><a href="#">Settings</a></li>
 
   </div>
@@ -64,9 +64,55 @@ if(isset($_SESSION["username"])) {
         ?>
     </section>
     <section>
+	  <form action="circlefriendadd.php" method ="post">
       <h2>Add friends to circles:</h2>
+	  <h3>Friends</h3>
+	    <input type="text" list="Friends" name = "friend" required>
+		<datalist id="Friends">
+		<?php $array = getFriends($_SESSION["username"],$mysqli);
+		for ($i = 0; $i < count($array);$i++)
+		{
+	      ?><option value="<?php echo $array[$i];?>">
+	    
+	        <?php } ?>
+	    </datalist>
+	  <h3>Circle</h3>
+	    <input type="text" list="Circles" name = "circle" required>
+		<datalist id="Circles">
+		<?php $array = getCircles($_SESSION["username"],$mysqli);
+		for ($i = 0; $i < count($array);$i++)
+		{
+	      ?><option value="<?php echo $array[$i];?>">
+	    
+	        <?php } ?>
+	    </datalist>
+		
+		<input type="submit"></form>
     </section>
 </section>
+
+<section id="banner">
+  <div class="inner split">
+    <section>
+	  <form action="circleadd.php" method="post">
+	    <h2>Add Circle</h2>
+	    <input type="text" list="Cirle" name = "circname" required>
+	    <input type="submit">
+	  </form>
+	</section>
+	<section>
+	  <form action="circleremove.php" method="post">
+	    <h2>Remove Circle</h2>
+		<input type=text" list="Circle" name = "circname" required>
+		<datalist id="Circles">
+		<?php $array = getCircles($_SESSION["username"],$mysqli);
+		for ($i = 0; $i < count($array);$i++)
+		{
+	      ?><option value="<?php echo $array[$i];?>">
+	    
+	        <?php } ?>
+	    </datalist>
+		<input type="submit"></form>
 </body>
 </html>
 <?php }
