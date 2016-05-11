@@ -143,6 +143,15 @@ function getUserData($username,$mysqli)
 		}
 		else{$reply= "Failure";}
 }
+function getCircleID($circle, $username, $mysqli)
+{
+	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
+	$reply = "Failure";
+	if($result = $mysqli->query($query))
+	{
+		
+	}
+}
 function addCircle($circle, $username, $mysqli)
 {
 	$query = "INSERT INTO circles (username, type) VALUES ('".$username."','".$circle."');";
