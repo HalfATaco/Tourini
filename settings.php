@@ -64,6 +64,20 @@ include "connectdb.php";
     </section>
     <section>
       <h2>Add friends to circles:</h2>
+	  <h3>Friends</h2>
+	    <input type="text" list="Friends" name = "friend" required>
+		<datalist id ="Friends">
+		
+	  <h3>Circle></h2>
+	    <input type="text" list="Circles" name = "circle" required>
+		<datalist id="Circles">
+		<?php $array = getCircles($_SESSION["username"],$mysqli);
+		for ($i = 0; $i < count($array);$i++)
+		{
+	      ?><option value="<?php echo $array[$i];?>">
+	    
+	        <?php } ?>
+	    </datalist>
     </section>
 </section>
 </body>
