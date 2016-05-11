@@ -20,7 +20,7 @@ if(isset($_SESSION["username"])) {
       <section>
         <form action="login.php" method="POST"><p> Username:<input type="text" name="username" required>
           <p> Password:<input type="password" name="password" required >
-            <input type = "submit"></form>
+            <input type = "submit" value="Submit"></form>
             Don't have an account? <a href="register.php">Click here</a> to sign up
           </div>
         </section>

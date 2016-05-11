@@ -25,6 +25,13 @@ if(isset($_SESSION["username"])) {
       <div class="inner split">
         <section>
           <h2><?php echo $_GET["username"]?>'s Profile</h2>
+          <?php if ($_GET["username"] != $_SESSION["username"])
+          {?>
+            <form action="addFriend.php" method="post">
+              <input type="hidden" name="friend" value="<?php echo $_GET["username"] ?>">
+              <input type="submit" value="Add friend">
+            </form>
+            <?php } ?>
         </section>
         <section>
           <?php $row = getUserData($_GET["username"],$mysqli);

@@ -5,7 +5,7 @@ $password = $_POST["password"];
 $message = checkUser($username,$password,$mysqli);
 if($message == "Either user does not exist or wrong password") {
 	echo $message;
-	header("refresh: 3; index.html");
+	header("refresh: 3; index.php");
 }
 else {
 	$_SESSION["username"] = $username;
