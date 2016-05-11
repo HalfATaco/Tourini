@@ -2,7 +2,7 @@
 include "connectdb.php";
 $circle = $_POST["circname"];
 
-$reply =addCircle($circle, $_SESSION["username"], $mysqli);
+$reply =removeCircle($circle, $_SESSION["username"], $mysqli);
 	header("refresh: 3; settings.php");
 ?>
 

@@ -4,7 +4,7 @@ $circle = $_POST["circle"];
 $friend = $_POST["friend"];
 
 $reply =insertFriendToCircle($friend, $circle, $_SESSION["username"], $mysqli);
-	header("refresh: 5; settings.php");
+	header("refresh: 3; settings.php");
 ?>
 
 <!DOCTYPE html>

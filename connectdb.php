@@ -143,6 +143,20 @@ function getUserData($username,$mysqli)
 		}
 		else{$reply= "Failure";}
 }
+function addCircle($circle, $username, $mysqli)
+{
+	$query = "INSERT INTO circles (username, type) VALUES ('".$username."','".$circle."');";
+	if($mysqli->query($query)==TRUE)
+	{
+		$reply = "Success";
+	}
+	else{$reply="Failure";}
+	return $reply;
+}
+function removeCircle($circle, $username, $mysqli)
+{
+	
+}
 function insertFriendToCircle($friend, $circle, $username, $mysqli)
 {
 	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
