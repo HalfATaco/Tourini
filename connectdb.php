@@ -302,6 +302,7 @@ function removeFriend($friend,$username,$mysqli)
 }
 function getAllPublicPosts($keyword,$mysqli)
 {
+	$array = [];
 	$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'public' and pCaption LIKE '%".$keyword."%';";
     if($result = $mysqli->query($query))
 	{
@@ -334,6 +335,7 @@ function getAllPrivatePosts($username,$keyword,$mysqli)
 }
 function getAllCirclePosts($username,$keyword,$mysqli)
 {
+	$array =[];
 	$circles = getCirclesIN($username, $mysqli);
 	foreach($circles as $circle) {
 		$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM post JOIN post_circle ON post_circle.postID = post.postID WHERE circleid=".$circle." AND pCaption Like '%".$keyword."%';";
