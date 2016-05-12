@@ -7,7 +7,7 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 $message = insertUser($username,$firstname,$lastname,$email,$password,$mysqli);
 if($message == "This user already exists!") {
-	header("refresh: 3; index.html");
+	header("refresh: 3; index.php");
 }
 else {
 	$_SESSION["username"] = $username;

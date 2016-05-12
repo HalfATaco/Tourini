@@ -1,5 +1,6 @@
 <?php
 include "connectdb.php";
+if(isset($_SESSION["username"])) {
   ?>
   <!DOCTYPE HTML>
   <html>
@@ -117,3 +118,7 @@ include "connectdb.php";
 <section id="banner">
 </body>
 </html>
+<?php }
+else{echo "Error: You are not logged in. Redirecting...";
+  header("refresh:3;index.php");}
+  ?>
