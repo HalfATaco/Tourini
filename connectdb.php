@@ -64,6 +64,9 @@ function getFriends($username,$mysqli)
 	}
 
 }
+function getCirclesIN($username) {
+	$query = "SELECT circleid";
+}
 function getFriendsInCircle($username,$circle,$mysqli)
 {
 	$query = "Select friendtype.friend FROM users JOIN friendtype JOIN circles ON users.username = circles.username AND friendtype.circleId = circles.circleid WHERE users.username = '".$username."' AND circles.type = '".$circle."'";
@@ -84,6 +87,7 @@ function insertPost($username,$message,$link,$location,$privacy,$mysqli)
 	if($link != null)
 	{
 $type="photo";
+	$link = "blank.png";
 	}
 	else{$link = "NULL";}
 	if($location == null )
@@ -103,7 +107,7 @@ $type="photo";
 		else {
 			$reply = $mysqli->error;
 		}
-}
+	}
 else{
 	$query = "INSERT INTO `post` (`username`, `pTime`, `pLatitude`, `pLongitude`, `pLink`, `pCaption`, `pPrivacy`, `pType`) VALUES ('".$username."',CURRENT_TIME,". $location."," .$location.",'" .$link."','" .$message."','circle','".$type."');";
 	$query2= "SELECT circleid from circles where type ='".$privacy."' and username = '".$username."';";
@@ -319,4 +323,8 @@ function getAllPrivatePosts($username,$keyword,$mysqli)
 		}
 	}
 	return $array;
+}
+function getAllCirclePosts($username,$keyword,$mysqli)
+{
+	$array=[];
 }

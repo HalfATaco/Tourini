@@ -33,17 +33,18 @@ if(isset($_SESSION["username"])) {
             <p>Location:<input type="number" id="location-input" name="location">
               <p><input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
               <p>
-                <input type="text" list="Circles" name = "circle" required>
-                <datalist id="Circles">
+                <select type="text" list="Circles" name = "circle" required>
+                
                 <?php $array = getCircles($_SESSION["username"],$mysqli);
                 for ($i = 0; $i < count($array);$i++)
                 {
-                  ?><option value="<?php echo $array[$i];?>">
+                  ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo $array[$i];?></option>
 
                     <?php } ?>
-                    <option value="public">
-                    <option value = "private">
-                </datalist>
+                    <option style="color:black" value="public">public</option>
+                    <option style="color:black" value = "private">private</option>
+                
+				</select>
               </p>
               <input type = "submit" name="submit"></form>
             </div>
