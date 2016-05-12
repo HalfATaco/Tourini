@@ -55,7 +55,7 @@ if(isset($_SESSION["username"])) {
     </section>
     <section>
       <?php $row = getCircles($_GET["username"],$mysqli);?>
-      <h1>Circles:</h1>
+      <h2>Circles:</h2>
       <?php $query = "SELECT type from circles where username ='".$_GET["username"]."';";
     	if($result = $mysqli->query($query))
     	{
