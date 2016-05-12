@@ -64,11 +64,30 @@ function getFriends($username,$mysqli)
 	}
 
 }
+function getCirclesIN($username) {
+	$query = "SELECT circleid";
+}
+function getFriendsInCircle($username,$circle,$mysqli)
+{
+	$query = "Select friendtype.friend FROM users JOIN friendtype JOIN circles ON users.username = circles.username AND friendtype.circleId = circles.circleid WHERE users.username = '".$username."' AND circles.type = '".$circle."'";
+	if($result = $mysqli->query($query))
+	{
+		$array = [];
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+	      $array[] = $row[0];
+	    }
+		if(count($array) == 0) {
+			$array[] = "None";
+		}
+		return $array;
+	}
+}
 function insertPost($username,$message,$link,$location,$privacy,$mysqli)
 {
 	if($link != null)
 	{
 $type="photo";
+	$link = "blank.png";
 	}
 	else{$link = "NULL";}
 	if($location == null )
@@ -88,7 +107,7 @@ $type="photo";
 		else {
 			$reply = $mysqli->error;
 		}
-}
+	}
 else{
 	$query = "INSERT INTO `post` (`username`, `pTime`, `pLatitude`, `pLongitude`, `pLink`, `pCaption`, `pPrivacy`, `pType`) VALUES ('".$username."',CURRENT_TIME,". $location."," .$location.",'" .$link."','" .$message."','circle','".$type."');";
 	$query2= "SELECT circleid from circles where type ='".$privacy."' and username = '".$username."';";
@@ -147,6 +166,27 @@ function getUserData($username,$mysqli)
 	}
 	else{$reply="Failure";}
 }
+function getCircleID($circle, $username, $mysqli)
+{
+	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
+	$reply = "Failure";
+	if($result = $mysqli->query($query))
+	{
+		$row = $result->fetch_array(MYSQLI_NUM);
+		return $row[0];
+	}
+	return "Failure";
+}
+function getAllCircleID($username, $mysqli)
+{
+	$query = "SELECT circleid from circles where username = '".$username."';";
+	$reply = "Failure";
+	if($result = $mysqli->query($query))
+	{
+		return $result;
+	}
+	return "Failure";
+}
 function addCircle($circle, $username, $mysqli)
 {
 	$query = "INSERT INTO circles (username, type) VALUES ('".$username."','".$circle."');";
@@ -159,15 +199,28 @@ function addCircle($circle, $username, $mysqli)
 }
 function removeCircle($circle, $username, $mysqli)
 {
-
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "Failure";}
+	else{
+		$query = "DELETE FROM circles WHERE circleid = ".$circleid.";";
+		if($mysqli->query($query)==TRUE)
+		{
+			$query = "DELETE FROM friendtype WHERE circleid = ".$circleid.";";
+			if($mysqli->query($query)==TRUE)
+			{
+				$reply="Success";
+			}
+			else{$reply="Failure";}
+		}
+		else{$reply="Failure";}
+	}
+	return $reply;
 }
 function insertFriendToCircle($friend, $circle, $username, $mysqli)
 {
-	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
-	if($result = $mysqli->query($query))
-	{
-		$row = $result->fetch_array(MYSQLI_NUM);
-		$circleid = $row[0];
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "Failure";}
+	else{
 		$query = "INSERT INTO friendtype (circleId, friend) VALUES (".$circleid.",'".$friend."')";
 		if($mysqli->query($query)==TRUE)
 		{
@@ -175,7 +228,20 @@ function insertFriendToCircle($friend, $circle, $username, $mysqli)
 			}
 			else{$reply= "Failure";}
 	}
-	else{$reply= "Failure";}
+	return $reply;
+}
+function removeFriendFromCircle($friend, $circle, $username, $mysqli)
+{
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "1Failure";}
+	else{
+		$query = "DELETE FROM friendtype WHERE circleID=".$circleid." AND friend='".$friend."';";
+		if($mysqli->query($query)==TRUE)
+		{
+			$reply= "Success";
+			}
+			else{$reply= "Failure";}
+	}
 	return $reply;
 }
 function removeRequest($friend,$username,$mysqli)
@@ -203,23 +269,62 @@ function removeFriend($friend,$username,$mysqli)
 	$query = "DELETE FROM `friends` WHERE friend='".$friend."'AND user='".$username."';";
 	if($mysqli->query($query)==TRUE)
 	{
-	$reply= "Success";
+		$query = "DELETE FROM `friends` WHERE friend='".$username."'AND user='".$friend."';";
+		if($mysqli->query($query)==TRUE)
+		{
+			$reply = "Success";
+			$result = getAllCircleID($username, $mysqli);
+			if($result == "Failure") {$reply = "Failure";}
+			else
+			{
+				while($row = $result->fetch_array(MYSQLI_NUM)){
+					$query = "DELETE FROM friendtype WHERE circleId=".$row[0]." AND friend='".$friend."';";
+					if($mysqli->query($query)!=TRUE)
+					{
+						$reply = "False";
+					}
+				}
+			}
 		}
 		else{$reply= "Failure";}
-		return $reply;
+	}
+	else{$reply= "Failure";}
+	
+	return $reply;
 }
-function checkIsFriend($friend,$username,$mysqli)
+function getAllPublicPosts($keyword,$mysqli)
 {
-$query = "SELECT * from friends where friend = '".$friend."' and user = '".$username."';"
-if($result=$mysqli->query($query)==TRUE)
+	$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'public' and pCaption LIKE '%".$keyword."%';";
+    if($result = $mysqli->query($query))
+	{
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+	      $array[] = $row;
+	    }
+		return $array;
+	}
+	
+	
+}
+
+function getAllPrivatePosts($username,$keyword,$mysqli)
 {
-	$num_rows = mysql_num_rows($result);
-	if($num_rows>0)
-	{return "True";}
-	else{return "False";}
+	$array=[];
+	$friendarr = getFriends($username, $mysqli);
+	$friendarr[] = $username;
+	foreach($friendarr as $friend) {
+		$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'private' and pCaption LIKE '%".$keyword."%' and post.username = '".$friend."';";
+		if($result = $mysqli->query($query))
+		{
+			while ($row = $result->fetch_array(MYSQLI_NUM)){
+				$array[] = $row;
+			}
+			
+		}
+	}
+	return $array;
 }
-
-
+function getAllCirclePosts($username,$keyword,$mysqli)
+{
+	$array=[];
 }
-
-?>
