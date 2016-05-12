@@ -142,6 +142,20 @@ if(isset($_SESSION["username"])) {
 		</section>
 		<?php
 	}?>
+</section>
+<section id="banner">
+	<h1>Location Settings:</h1>
+	<div class="inner split">
+	  <form action="addLocation.php" method ="post">
+	  <h2>Insert Location:</h2>
+	  <h4>Location Name:</h4>
+	  <input type="text" id="location-name" name="location" required>
+	  <h4>Latitude:</h4>
+	  <input style="color:black" type="number" id="latitude-input" name="latitude" required>
+	  <h4>Longitude:</h4>
+	  <input style="color:black" type="number" id="longitude-input" name="longitude" required>
+	  <input type="submit">
+	  </form>
 </body>
 </html>
 <?php }

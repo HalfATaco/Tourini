@@ -328,3 +328,13 @@ function getAllCirclePosts($username,$keyword,$mysqli)
 {
 	$array=[];
 }
+function insertLocation($location, $latitude, $longitude, $mysqli)
+{
+	$query = "Insert into landmark (locname, loclatitude, loclongitude) VALUES ('".$location."','".$latitude."','".$longitude."');";
+	if($mysqli->query($query)==TRUE)
+	{
+	$reply= "Success";
+		}
+		else{$reply= "Failure";}
+		return $reply;
+}
