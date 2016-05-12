@@ -17,12 +17,13 @@ include "connectdb.php";
     <li class="active"><a href="home.php">Home</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Settings</a></li>
+  <li><a href="logout.php">Logout</a></li>
   </div>
   </form>
-  
+
   <?php $message = "";
 	$query1 = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'public' and pCaption LIKE '%".$_GET["searchVal"]."%';";
-    
+
 	$query4 = "SELECT username, firstName, lastName FROM users WHERE username like '%".$_GET["searchVal"]."%' OR firstName like '%".$_GET["searchVal"]."%' OR lastName like '%".$_GET["searchVal"]."%';";
     $query5 = "SELECT type FROM users JOIN circles ON users.username = circles.username WHERE users.username = 'allenduncare' AND type like '%".$_GET["searchVal"]."%';";
   ?>
@@ -46,7 +47,7 @@ include "connectdb.php";
 		  <h3><?php echo $pCaption ?></h3>
 		  <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
 		</div>
-		</div>	
+		</div>
 		<?php
 	}?>
 	<?php
@@ -68,7 +69,7 @@ include "connectdb.php";
 		  <h3><?php echo $pCaption ?></h3>
 		  <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
 		</div>
-		</div>	
+		</div>
 		<?php
 	}?>
   <h2>Users</h2>
@@ -89,12 +90,12 @@ include "connectdb.php";
 			  </h3>
 		      <h3><?php echo " ".$firstName." ".$lastName ?></h3>
 		    </div>
-		    </div>	
+		    </div>
 			<?php
 		}
-	} 
+	}
   ?>
-  
+
   <h2>Circles</h2>
   <?php
     if($result = $mysqli->query($query5))
@@ -106,10 +107,10 @@ include "connectdb.php";
 		    <div class="content">
 		      <h3><?php echo $type ?></h3>
 		    </div>
-		    </div>	
+		    </div>
 			<?php
 		}
-	} 
+	}
   ?>
-  
+
 </html>

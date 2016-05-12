@@ -19,6 +19,7 @@ if(isset($_SESSION["username"])) {
     <li><a href="home.php">Home</a></li>
   <li class="active"><a href="#">Profile</a></li>
   <li><a href="settings.php">Settings</a></li>
+  <li><a href="logout.php">Logout</a></li>
 </form>
 </div>
     <section id="banner">

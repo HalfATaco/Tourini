@@ -18,6 +18,7 @@ if(isset($_SESSION["username"])) {
     <li class="active"><a href="home.php">Home</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
   <li><a href="#">Settings</a></li>
+  <li><a href="logout.php">Logout</a></li>
 
   </div>
 </form>
@@ -73,9 +74,9 @@ if(isset($_SESSION["username"])) {
 		for ($i = 0; $i < count($array);$i++)
 		{
 	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo$array[$i];?></option>
-	    
+
 	        <?php } ?>
-	    
+
 		</select>
 	  <h3>Circle</h3>
 	    <select type="text" list="Circles" name = "circle" required>
@@ -84,7 +85,7 @@ if(isset($_SESSION["username"])) {
 		for ($i = 0; $i < count($array);$i++)
 		{
 	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo$array[$i];?></option>
-	    
+
 	        <?php } ?>
 	    </datalist>
 		</select>
@@ -111,7 +112,7 @@ if(isset($_SESSION["username"])) {
 		for ($i = 0; $i < count($array);$i++)
 		{
 	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo $array[$i];?></option>
-	    
+
 	        <?php } ?>
 	    </datalist>
 		</select>

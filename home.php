@@ -19,7 +19,7 @@ if(isset($_SESSION["username"])) {
     <li class="active"><a href="#">Home</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
   <li><a href="settings.php">Settings</a></li>
-
+<li><a href="logout.php">Logout</a></li>
   </div>
 </form>
     <section id="banner">
