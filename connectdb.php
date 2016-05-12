@@ -149,8 +149,20 @@ function getCircleID($circle, $username, $mysqli)
 	$reply = "Failure";
 	if($result = $mysqli->query($query))
 	{
-		
+		$row = $result->fetch_array(MYSQLI_NUM);
+		return $row[0];
 	}
+	return "Failure";
+}
+function getAllCircleID($username, $mysqli)
+{
+	$query = "SELECT circleid from circles where username = '".$username."';";
+	$reply = "Failure";
+	if($result = $mysqli->query($query))
+	{
+		return $result;
+	}
+	return "Failure";
 }
 function addCircle($circle, $username, $mysqli)
 {
@@ -164,15 +176,28 @@ function addCircle($circle, $username, $mysqli)
 }
 function removeCircle($circle, $username, $mysqli)
 {
-	
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "Failure";}
+	else{
+		$query = "DELETE FROM circles WHERE circleid = ".$circleid.";";
+		if($mysqli->query($query)==TRUE)
+		{
+			$query = "DELETE FROM friendtype WHERE circleid = ".$circleid.";";
+			if($mysqli->query($query)==TRUE)
+			{
+				$reply="Success";
+			}
+			else{$reply="Failure";}
+		}
+		else{$reply="Failure";}
+	}
+	return $reply;
 }
 function insertFriendToCircle($friend, $circle, $username, $mysqli)
 {
-	$query = "SELECT circleid from circles where username = '".$username."' and type = '".$circle."';";
-	if($result = $mysqli->query($query))
-	{
-		$row = $result->fetch_array(MYSQLI_NUM);
-		$circleid = $row[0];
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "Failure";}
+	else{
 		$query = "INSERT INTO friendtype (circleId, friend) VALUES (".$circleid.",'".$friend."')";
 		if($mysqli->query($query)==TRUE)
 		{
@@ -180,7 +205,6 @@ function insertFriendToCircle($friend, $circle, $username, $mysqli)
 			}
 			else{$reply= "Failure";}
 	}
-	else{$reply= "Failure";}
 	return $reply;
 }
 function removeRequest($friend,$username,$mysqli)
@@ -198,10 +222,28 @@ function removeFriend($friend,$username,$mysqli)
 	$query = "DELETE FROM `friends` WHERE friend='".$friend."'AND user='".$username."';";
 	if($mysqli->query($query)==TRUE)
 	{
-	$reply= "Success";
+		$query = "DELETE FROM `friends` WHERE friend='".$username."'AND user='".$friend."';";
+		if($mysqli->query($query)==TRUE)
+		{
+			$reply = "Success";
+			$array = getAllCircleID($username, $friend);
+			if($array == "Failure") {$reply = "Failure";}
+			else
+			{
+				for ($i = 0; $i < count($array);$i++) {
+					$query = "DELETE FROM friendtype WHERE circleId=".$array[i]." AND friend='".$friend."';";
+					if($mysqli->query($query)!=TRUE)
+					{
+						$reply = "False";
+					}
+				}
+			}
 		}
 		else{$reply= "Failure";}
-		return $reply;
+	}
+	else{$reply= "Failure";}
+	
+	return $reply;
 }
 
 ?>

@@ -102,7 +102,7 @@ include "connectdb.php";
 	<section>
 	  <form action="circleremove.php" method="post">
 	    <h2>Remove Circle</h2>
-		<input type=text" list="Circle" name = "circname" required>
+		<input type="text" list="Circles" name = "circname" required>
 		<datalist id="Circles">
 		<?php $array = getCircles($_SESSION["username"],$mysqli);
 		for ($i = 0; $i < count($array);$i++)
@@ -112,5 +112,8 @@ include "connectdb.php";
 	        <?php } ?>
 	    </datalist>
 		<input type="submit"></form>
+	</section>
+</section>
+<section id="banner">
 </body>
 </html>
