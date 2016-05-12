@@ -14,7 +14,7 @@ include "connectdb.php";
   <div class="collapse navbar-collapse">
       <form action="search.php" method="GET"><input type="search" placeholder="Search here" name="searchVal" required><input type="submit" value="Go"/>
   <ul class="nav navbar-nav pull-right ">
-    <li class="active"><a href="#">Home</a></li>
+    <li class="active"><a href="home.php">Home</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Profile</a></li>
   <li><a href="profile.php?username=<?php echo $_SESSION["username"]?>">Settings</a></li>
   </div>
