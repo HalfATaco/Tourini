@@ -226,6 +226,20 @@ function insertFriendToCircle($friend, $circle, $username, $mysqli)
 	}
 	return $reply;
 }
+function removeFriendFromCircle($friend, $circle, $username, $mysqli)
+{
+	$circleid = getCircleID($circle, $username, $mysqli);
+	if($circleid == "Failure") {$reply = "1Failure";}
+	else{
+		$query = "DELETE FROM friendtype WHERE circleID=".$circleid." AND friend='".$friend."';";
+		if($mysqli->query($query)==TRUE)
+		{
+			$reply= "Success";
+			}
+			else{$reply= "Failure";}
+	}
+	return $reply;
+}
 function removeRequest($friend,$username,$mysqli)
 {
 	$query = "DELETE FROM `friendrequest` WHERE sender='".$friend."'AND reciever='".$username."';";
@@ -274,5 +288,35 @@ function removeFriend($friend,$username,$mysqli)
 	
 	return $reply;
 }
+function getAllPublicPosts($keyword,$mysqli)
+{
+	$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'public' and pCaption LIKE '%".$keyword."%';";
+    if($result = $mysqli->query($query))
+	{
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+	      $array[] = $row;
+	    }
+		return $array;
+	}
+	
+	
+}
 
-?>
+function getAllPrivatePosts($username,$keyword,$mysqli)
+{
+	$array=[];
+	$friendarr = getFriends($username, $mysqli);
+	$friendarr[] = $username;
+	foreach($friendarr as $friend) {
+		$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'private' and pCaption LIKE '%".$keyword."%' and post.username = '".$friend."';";
+		if($result = $mysqli->query($query))
+		{
+			while ($row = $result->fetch_array(MYSQLI_NUM)){
+				$array[] = $row;
+			}
+			
+		}
+	}
+	return $array;
+}

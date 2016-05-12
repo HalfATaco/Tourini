@@ -27,30 +27,50 @@ include "connectdb.php";
     $query5 = "SELECT type FROM users JOIN circles ON users.username = circles.username WHERE users.username = 'allenduncare' AND type like '%".$_GET["searchVal"]."%';";
   ?>
   <h2>Posts</h2>
-  <?php
-    if($result = $mysqli->query($query1))
+    <?php
+    $array1 = getAllPublicPosts($_GET["searchVal"],$mysqli);
+	foreach($array1 as $row)
 	{
-		while ($row = $result->fetch_array(MYSQLI_NUM)) {
-			$username = $row[0];
-			$pLink = $row[1];
-			$pCaption = $row[2];
-			$pTime = $row[3];
-			$pLatitude = $row[4];
-			$pLongitude = $row[5];
-			?>
-			</div>	<div class="spotlight">
-		    <div class="image">
-		      <img src="./uploads/<?php echo $pLink ?>" alt="" />
-		    </div>
-		    <div class="content">
-		      <h3><?php echo $pCaption ?></h3>
-		      <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
-		    </div>
-		    </div>	
-			<?php
-		}
-	} ?>
-	
+		$username = $row[0];
+		$pLink = $row[1];
+		$pCaption = $row[2];
+		$pTime = $row[3];
+		$pLatitude = $row[4];
+		$pLongitude = $row[5];
+		?>
+		</div>	<div class="spotlight">
+		<div class="image">
+		  <img src="./uploads/<?php echo $pLink ?>" alt="" />
+		</div>
+		<div class="content">
+		  <h3><?php echo $pCaption ?></h3>
+		  <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
+		</div>
+		</div>	
+		<?php
+	}?>
+	<?php
+	$array2 = getAllPrivatePosts($_SESSION["username"], $_GET["searchVal"],$mysqli);
+	foreach($array2 as $row)
+	{
+		$username = $row[0];
+		$pLink = $row[1];
+		$pCaption = $row[2];
+		$pTime = $row[3];
+		$pLatitude = $row[4];
+		$pLongitude = $row[5];
+		?>
+		</div>	<div class="spotlight">
+		<div class="image">
+		  <img src="./uploads/<?php echo $pLink ?>" alt="" />
+		</div>
+		<div class="content">
+		  <h3><?php echo $pCaption ?></h3>
+		  <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
+		</div>
+		</div>	
+		<?php
+	}?>
   <h2>Users</h2>
   <?php
     if($result = $mysqli->query($query4))

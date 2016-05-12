@@ -68,26 +68,26 @@ if(isset($_SESSION["username"])) {
 	  <form action="circlefriendadd.php" method ="post">
       <h2>Add friends to circles:</h2>
 	  <h3>Friends</h3>
-	    <input type="text" list="Friends" name = "friend" required>
-		<datalist id="Friends">
+	    <select type="text" list="Friends" name = "friend" required>
 		<?php $array = getFriends($_SESSION["username"],$mysqli);
 		for ($i = 0; $i < count($array);$i++)
 		{
-	      ?><option value="<?php echo $array[$i];?>">
+	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo$array[$i];?></option>
 	    
 	        <?php } ?>
-	    </datalist>
+	    
+		</select>
 	  <h3>Circle</h3>
-	    <input type="text" list="Circles" name = "circle" required>
+	    <select type="text" list="Circles" name = "circle" required>
 		<datalist id="Circles">
 		<?php $array = getCircles($_SESSION["username"],$mysqli);
 		for ($i = 0; $i < count($array);$i++)
 		{
-	      ?><option value="<?php echo $array[$i];?>">
+	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo$array[$i];?></option>
 	    
 	        <?php } ?>
 	    </datalist>
-		
+		</select>
 		<input type="submit"></form>
     </section>
 </section>
@@ -105,20 +105,22 @@ if(isset($_SESSION["username"])) {
 	<section>
 	  <form action="circleremove.php" method="post">
 	    <h2>Remove Circle</h2>
-		<input type="text" list="Circles" name = "circname" required>
+		<select type="text" list="Circles" name = "circname" required>
 		<datalist id="Circles">
 		<?php $array = getCircles($_SESSION["username"],$mysqli);
 		for ($i = 0; $i < count($array);$i++)
 		{
-	      ?><option value="<?php echo $array[$i];?>">
+	      ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo $array[$i];?></option>
 	    
 	        <?php } ?>
 	    </datalist>
+		</select>
 		<input type="submit"></form>
 	</section>
 </section>
 <section id="banner">
   <h1>Circle List</h1>
+  <h4>Click on name to remove from circle</h4>
   <div class="inner split">
     <?php $circlearray = getCircles($_SESSION["username"],$mysqli);
 	for ($i = 0; $i < count($circlearray); $i++)
@@ -128,7 +130,13 @@ if(isset($_SESSION["username"])) {
 		    <?php $friendarray = getFriendsInCircle($_SESSION["username"], $circlearray[$i], $mysqli);
 			for ($j = 0; $j < count($friendarray); $j++)
 			{?>
-				<h4><?php echo $friendarray[$j]?></h4>
+				<h4><?php echo '<a href="circlefriendremove.php?circle=';
+						  echo $circlearray[$i];
+						  echo '&friend=';
+						  echo $friendarray[$j];
+						  echo "\">$friendarray[$j]</a>";
+					?>
+				</h4>
 				<?php
 			}?>
 		</section>
