@@ -159,7 +159,7 @@ function addCircle($circle, $username, $mysqli)
 }
 function removeCircle($circle, $username, $mysqli)
 {
-	
+
 }
 function insertFriendToCircle($friend, $circle, $username, $mysqli)
 {
@@ -207,6 +207,19 @@ function removeFriend($friend,$username,$mysqli)
 		}
 		else{$reply= "Failure";}
 		return $reply;
+}
+function checkIsFriend($friend,$username,$mysqli)
+{
+$query = "SELECT * from friends where friend = '".$friend."' and user = '".$username."';"
+if($result=$mysqli->query($query)==TRUE)
+{
+	$num_rows = mysql_num_rows($result);
+	if($num_rows>0)
+	{return "True";}
+	else{return "False";}
+}
+
+
 }
 
 ?>
