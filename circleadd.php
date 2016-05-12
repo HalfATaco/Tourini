@@ -23,7 +23,7 @@ $reply =addCircle($circle, $_SESSION["username"], $mysqli);
 		<body>
 			<section id="banner">
 						<h2><?php echo $reply?></h2>
-						<h3>Please wait 3 seconds while being redirected"</h3>
+						<h3>Please wait 3 seconds while being redirected</h3>
 				</body>
 				</html>
 				</html>

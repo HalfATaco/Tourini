@@ -47,6 +47,7 @@ if(isset($_SESSION["username"])) {
         </section>
 </section>
 <section id="banner">
+  <h1>Friend Management</h1>
   <div class="inner split">
     <section>
       <h2>Remove friends:</h2>
@@ -92,6 +93,7 @@ if(isset($_SESSION["username"])) {
 </section>
 
 <section id="banner">
+  <h1>Circle Management</h1>
   <div class="inner split">
     <section>
 	  <form action="circleadd.php" method="post">
@@ -116,6 +118,22 @@ if(isset($_SESSION["username"])) {
 	</section>
 </section>
 <section id="banner">
+  <h1>Circle List</h1>
+  <div class="inner split">
+    <?php $circlearray = getCircles($_SESSION["username"],$mysqli);
+	for ($i = 0; $i < count($circlearray); $i++)
+	{?>
+		<section>
+		  <h2><?php echo $circlearray[$i]?>:</h2>
+		    <?php $friendarray = getFriendsInCircle($_SESSION["username"], $circlearray[$i], $mysqli);
+			for ($j = 0; $j < count($friendarray); $j++)
+			{?>
+				<h4><?php echo $friendarray[$j]?></h4>
+				<?php
+			}?>
+		</section>
+		<?php
+	}?>
 </body>
 </html>
 <?php }
