@@ -297,7 +297,7 @@ function removeFriend($friend,$username,$mysqli)
 		else{$reply= "Failure";}
 	}
 	else{$reply= "Failure";}
-	
+
 	return $reply;
 }
 function getAllPublicPosts($keyword,$mysqli)
@@ -312,8 +312,8 @@ function getAllPublicPosts($keyword,$mysqli)
 	    }
 		return $array;
 	}
-	
-	
+
+
 }
 
 function getAllPrivatePosts($username,$keyword,$mysqli)
@@ -328,11 +328,12 @@ function getAllPrivatePosts($username,$keyword,$mysqli)
 			while ($row = $result->fetch_array(MYSQLI_NUM)){
 				$array[] = $row;
 			}
-			
+
 		}
 	}
 	return $array;
 }
+
 function getAllCirclePosts($username,$keyword,$mysqli)
 {
 	$array =[];
@@ -349,13 +350,19 @@ function getAllCirclePosts($username,$keyword,$mysqli)
 	}
 	return $array;
 }
-function insertLocation($location, $latitude, $longitude, $mysqli)
+function getLocation($mysqli)
 {
-	$query = "Insert into landmark (locname, loclatitude, loclongitude) VALUES ('".$location."','".$latitude."','".$longitude."');";
-	if($mysqli->query($query)==TRUE)
+	$query = "SELECT * FROM landmarks";
+		if($result = $mysqli->query($query))
 	{
-	$reply= "Success";
-		}
-		else{$reply= "Failure";}
-		return $reply;
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+				$array[] = $row[1];
+			}
+		return $array;
+	}
+
+
+
+
 }
