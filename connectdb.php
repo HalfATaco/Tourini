@@ -64,8 +64,16 @@ function getFriends($username,$mysqli)
 	}
 
 }
-function getCirclesIN($username) {
-	$query = "SELECT circleid";
+function getCirclesIN($username, $mysqli) {
+	$query = "SELECT circleid from friendtype where friend='".$username."';";
+	if($result = $mysqli->query($query))
+	{
+		$array;
+		while ($row = $result->fetch_array(MYSQLI_NUM)){
+			$array[] = $row[0];
+		}
+		return $array;
+	}
 }
 function getFriendsInCircle($username,$circle,$mysqli)
 {
@@ -327,7 +335,18 @@ function getAllPrivatePosts($username,$keyword,$mysqli)
 
 function getAllCirclePosts($username,$keyword,$mysqli)
 {
-	$array=[];
+	$circles = getCirclesIN($username, $mysqli);
+	foreach($circles as $circle) {
+		$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM post JOIN post_circle ON post_circle.postID = post.postID WHERE circleid=".$circle." AND pCaption Like '%".$keyword."%';";
+		if($result = $mysqli->query($query))
+		{
+			while ($row = $result->fetch_array(MYSQLI_NUM)){
+				$array[] = $row;
+			}
+			
+		}
+	}
+	return $array;
 }
 function getLocation($mysqli)
 {

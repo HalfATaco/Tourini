@@ -72,6 +72,28 @@ include "connectdb.php";
 		</div>
 		<?php
 	}?>
+	<?php
+	$array3 = getAllCirclePosts($_SESSION["username"], $_GET["searchVal"],$mysqli);
+	foreach($array3 as $row)
+	{
+		$username = $row[0];
+		$pLink = $row[1];
+		$pCaption = $row[2];
+		$pTime = $row[3];
+		$pLatitude = $row[4];
+		$pLongitude = $row[5];
+		?>
+		</div>	<div class="spotlight">
+		<div class="image">
+		  <img src="./uploads/<?php echo $pLink ?>" alt="" />
+		</div>
+		<div class="content">
+		  <h3><?php echo $pCaption ?></h3>
+		  <p><?php echo "Posted on ".$pTime." by ".$username?>  </p>
+		</div>
+		</div>
+		<?php
+	}?>
   <h2>Users</h2>
   <?php
     if($result = $mysqli->query($query4))
