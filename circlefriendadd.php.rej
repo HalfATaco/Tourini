@@ -1,0 +1,10 @@
+diff a/circlefriendadd.php b/circlefriendadd.php	(rejected hunks)
+@@ -3,7 +3,7 @@
+ $circle = $_POST["circle"];
+ $friend = $_POST["friend"];
+ 
+-$reply =insertFriendToCircleinsertFriendToCircle($friend, $circle, $_SESSION["username"], $mysqli);
++$reply =insertFriendToCircle($friend, $circle, $_SESSION["username"], $mysqli);
+ 	header("refresh: 3; settings.php");
+ ?>
+ 

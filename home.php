@@ -34,7 +34,7 @@ if(isset($_SESSION["username"])) {
               <p><input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
               <p>
                 <select type="text" list="Circles" name = "circle" required>
-                
+
                 <?php $array = getCircles($_SESSION["username"],$mysqli);
                 for ($i = 0; $i < count($array);$i++)
                 {
@@ -43,7 +43,7 @@ if(isset($_SESSION["username"])) {
                     <?php } ?>
                     <option style="color:black" value="public">public</option>
                     <option style="color:black" value = "private">private</option>
-                
+
 				</select>
               </p>
               <input type = "submit" name="submit"></form>

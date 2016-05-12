@@ -289,7 +289,11 @@ function removeFriend($friend,$username,$mysqli)
 		else{$reply= "Failure";}
 	}
 	else{$reply= "Failure";}
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> 80301bd4375939f012f14b05e4c48b555d369d49
 	return $reply;
 }
 function getAllPublicPosts($keyword,$mysqli)
@@ -303,9 +307,12 @@ function getAllPublicPosts($keyword,$mysqli)
 	    }
 		return $array;
 	}
+<<<<<<< HEAD
+=======
 	
 	
 }
+>>>>>>> 80301bd4375939f012f14b05e4c48b555d369d49
 
 function getAllPrivatePosts($username,$keyword,$mysqli)
 {
@@ -328,3 +335,28 @@ function getAllCirclePosts($username,$keyword,$mysqli)
 {
 	$array=[];
 }
+<<<<<<< HEAD
+
+function getAllPrivatePosts($username,$keyword,$mysqli)
+{
+	$array=[];
+	$friendarr = getFriends($username, $mysqli);
+	$friendarr[] = $username;
+	foreach($friendarr as $friend) {
+		$query = "SELECT post.username, pLink, pCaption, pTime, pLatitude, pLongitude FROM users JOIN post ON users.username = post.username WHERE pPrivacy = 'private' and pCaption LIKE '%".$keyword."%' and post.username = '".$friend."';";
+		if($result = $mysqli->query($query))
+		{
+			while ($row = $result->fetch_array(MYSQLI_NUM)){
+				$array[] = $row;
+			}
+
+		}
+	}
+	return $array;
+}
+function getAllCirclePosts($username,$keyword,$mysqli)
+{
+	$array=[];
+}
+=======
+>>>>>>> 80301bd4375939f012f14b05e4c48b555d369d49
