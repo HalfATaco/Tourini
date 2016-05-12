@@ -30,7 +30,14 @@ if(isset($_SESSION["username"])) {
         </section>
         <section>
           <form action="insertMessage.php" method="post" enctype="multipart/form-data"><input type="text" id='textbox' name="message" required>
-            <p>Location:<input type="number" id="location-input" name="location">
+            <p>Location:  <select type="text" list="Circles" name = "circle" required>
+
+              <?php $array = getLocations($mysqli);
+              for ($i = 0; $i < count($array);$i++)
+              {
+                ?><option style="color:black" value="<?php echo $array[$i];?>"><?php echo $array[$i];?></option>
+
+                  <?php } ?>
               <p><input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
               <p>
                 <select type="text" list="Circles" name = "circle" required>
